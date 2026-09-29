@@ -1,0 +1,1082 @@
+/* ==========================================================================
+   CATALOG MODERN DESIGN SYSTEM - CDI INFISSI
+   Cutting-edge catalog architecture, mega-menu, product finder, and comparator
+   ========================================================================== */
+
+/* --- 1. Mega-Menu Dropdown --- */
+.nav-island {
+  position: relative;
+}
+.has-megamenu {
+  position: static;
+}
+
+.megamenu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 550;
+  transition: background 180ms ease, color 180ms ease;
+}
+.megamenu-trigger svg {
+  width: 10px;
+  height: 10px;
+  transition: transform 240ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.has-megamenu:hover .megamenu-trigger,
+.has-megamenu:focus-within .megamenu-trigger,
+.has-megamenu.is-active .megamenu-trigger {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--teal-deep);
+}
+.has-megamenu:hover .megamenu-trigger svg,
+.has-megamenu:focus-within .megamenu-trigger svg,
+.has-megamenu.is-active .megamenu-trigger svg {
+  transform: rotate(180deg);
+}
+
+.megamenu-panel {
+  --megamenu-stacco: 0.85rem; /* distacco visivo dalla barra di navigazione */
+  position: absolute;
+  top: calc(100% + var(--megamenu-stacco));
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.98);
+  width: min(1200px, 94vw);
+  background: color-mix(in srgb, var(--paper-2) 92%, transparent);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 24px;
+  box-shadow:
+    0 24px 50px -12px rgba(17, 26, 23, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  padding: 1.5rem;
+  display: grid;
+  /* minmax(0, 1fr) e non 1fr: con 1fr ogni colonna non può scendere sotto la
+     larghezza del suo testo più lungo, e le quattro colonne insieme sfondano
+     il pannello (l'ultima, Ombreggianti & Sistemi, finiva fuori dal bordo). */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 280ms cubic-bezier(0.25, 1, 0.5, 1),
+              transform 280ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              visibility 280ms;
+  z-index: 100;
+}
+
+/* Ponte invisibile sul vuoto fra la voce di menu e la tendina. Senza, il
+   puntatore che scende verso la tendina attraversa una fascia in cui non c'è
+   né la voce né il pannello: l'hover decade e la tendina si chiude prima che
+   il mouse la raggiunga. Il ponte è figlio del pannello, quindi passandoci
+   sopra l'hover sulla voce resta attivo. */
+.megamenu-panel::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  /* Alto quanto basta ad arrivare al bordo inferiore della voce di menu:
+     0.85rem di distacco + 1.45rem di padding della barra. */
+  height: calc(var(--megamenu-stacco) + 1.45rem);
+}
+
+.has-megamenu:hover .megamenu-panel,
+.has-megamenu:focus-within .megamenu-panel,
+.has-megamenu.is-active .megamenu-panel {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+@media (max-width: 1040px) {
+  .megamenu-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(680px, 95vw);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+.megamenu-col h4 {
+  margin: 0 0 0.8rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teal-deep);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.4rem;
+}
+.megamenu-col h4 a {
+  text-decoration: none;
+  color: inherit;
+}
+.megamenu-col h4 a:hover {
+  color: var(--teal);
+}
+
+.megamenu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.megamenu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 0.88rem;
+  transition: background 160ms ease, transform 160ms ease;
+}
+.megamenu-item:hover {
+  background: color-mix(in srgb, var(--teal) 10%, transparent);
+  transform: translateX(3px);
+}
+.megamenu-thumb {
+  width: 46px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: contain !important;
+  background: #f0f4f2;
+  padding: 2px;
+  flex-shrink: 0;
+}
+/* main.css impone white-space: nowrap a tutti i link dentro .nav-links, per
+   tenere le voci della barra su una riga sola. La regola colpiva anche le voci
+   della tendina, che quindi non andavano a capo e allargavano le colonne fino a
+   sfondare il pannello. Qui il testo deve poter andare a capo. */
+.megamenu-panel a {
+  white-space: normal;
+}
+
+/* Stessa ragione di minmax(0, 1fr) sulle colonne: dentro un flex il testo non
+   scende sotto la sua larghezza minima se non glielo si concede. */
+.megamenu-text {
+  min-width: 0;
+}
+.megamenu-text strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.megamenu-text span {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+}
+
+/* --- 2. Interactive Product Finder ("Trova il tuo serramento") --- */
+.product-finder {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--teal-deep) 96%, #0d1a18), var(--ink));
+  color: #f6faf8;
+  border-radius: 28px;
+  padding: clamp(1.8rem, 4vw, 3rem);
+  box-shadow:
+    0 20px 45px rgba(17, 72, 67, 0.22),
+    0 0 0 1px color-mix(in srgb, white 10%, transparent) inset;
+  position: relative;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+.product-finder::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--teal) 35%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.finder-header {
+  max-width: 620px;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.finder-header .badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: color-mix(in srgb, var(--teal) 30%, transparent);
+  color: #c9f5ed;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--teal) 45%, transparent);
+}
+.finder-header h2 {
+  color: #ffffff;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  margin: 0 0 0.6rem;
+  max-width: none;
+}
+.finder-header p {
+  color: #cfe2dd;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.finder-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+.finder-step {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 1.3rem;
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+}
+.finder-step-num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #79ddcc;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+.finder-step h3 {
+  font-size: 1.12rem;
+  color: #ffffff;
+  margin: 0 0 0.9rem;
+}
+
+.finder-options {
+  display: grid;
+  gap: 0.5rem;
+}
+.finder-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e8f4f1;
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 180ms ease;
+}
+.finder-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+.finder-btn[aria-checked="true"] {
+  background: var(--teal);
+  border-color: #78ecd8;
+  color: #ffffff;
+  font-weight: 650;
+  box-shadow: 0 4px 18px rgba(26, 111, 104, 0.45);
+}
+.finder-btn::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+.finder-btn[aria-checked="true"]::after {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+/* Result Card */
+.finder-result {
+  grid-column: 1 / -1;
+  background: color-mix(in srgb, var(--paper-2) 95%, transparent);
+  color: var(--ink);
+  border-radius: 22px;
+  padding: 1.4rem;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0.85rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: slideUpFade 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.finder-result.is-visible {
+  display: flex !important;
+}
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.finder-result-media {
+  width: 140px;
+  height: 105px;
+  border-radius: 14px;
+  object-fit: contain !important;
+  background: #ffffff;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.finder-result-info {
+  flex-grow: 1;
+}
+.finder-result-info span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.finder-result-info h4 {
+  font-size: 1.35rem;
+  margin: 0.2rem 0 0.4rem;
+  font-weight: 700;
+}
+.finder-result-info p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.finder-result-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .product-finder {
+    padding: 1.25rem 1rem;
+    border-radius: 20px;
+  }
+  .finder-steps {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .finder-step {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+  .finder-btn {
+    min-height: 46px;
+    font-size: 0.88rem;
+    padding: 0.7rem 0.85rem;
+  }
+  .finder-result {
+    flex-direction: column;
+    text-align: left;
+    padding: 1rem;
+    border-radius: 18px;
+    gap: 1rem;
+  }
+  .finder-result-media {
+    width: 100% !important;
+    height: 160px !important;
+    max-width: none;
+    margin: 0 auto;
+  }
+  .finder-result-info {
+    width: 100%;
+  }
+  .finder-result-info h4 {
+    font-size: 1.2rem;
+  }
+  .finder-result-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .finder-result-actions .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+}
+
+/* --- 3. Live Search & Filter Toolbar --- */
+.catalog-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+.search-box {
+  position: relative;
+  max-width: 580px;
+  width: 100%;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-2);
+  color: var(--ink);
+  font-size: 0.95rem;
+  transition: all 200ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+.search-box input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--teal) 18%, transparent);
+}
+.search-box svg {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+.search-clear {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  border: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--ink);
+}
+
+/* Le foto delle maniglie hanno il fondo bianco (non trasparente come le altre
+   categorie): senza questa regola si vedrebbe il quadrato bianco stagliato
+   sul verde-grigio della scheda. */
+.tile[data-cat="maniglie"] {
+  background: #ffffff;
+}
+
+/* Compare trigger button on tile */
+.tile-compare-btn {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 3;
+  background: rgba(23, 26, 25, 0.75);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 180ms ease;
+}
+.tile-compare-btn:hover {
+  background: var(--teal-deep);
+  border-color: #79ddcc;
+  transform: scale(1.05);
+}
+.tile-compare-btn.is-selected {
+  background: var(--teal);
+  border-color: #92f7e6;
+  color: #ffffff;
+}
+
+/* --- 4. Floating Product Compare Bar (Compatta, Discreta, Senza Sovrapposizioni) --- */
+.compare-bar,
+.compare-bar[hidden] {
+  display: none !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.compare-bar.is-visible {
+  display: inline-flex !important;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  animation: compareBarSlideUp 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes compareBarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.compare-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: rgba(14, 24, 21, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 0.32rem 0.45rem 0.32rem 0.85rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  gap: 0.65rem;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+@media (max-width: 899px) {
+  .compare-bar {
+    bottom: calc(4.8rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.25rem 0.35rem 0.25rem 0.75rem;
+    gap: 0.5rem;
+    max-width: calc(100vw - 1.5rem);
+  }
+}
+
+.compare-slots {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.compare-slot-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1.5px solid #36a397;
+  object-fit: contain !important;
+  background: #ffffff;
+  padding: 1px;
+}
+
+.compare-bar span {
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.compare-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-compare-go,
+.compare-actions .btn {
+  padding: 0.25rem 0.65rem !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  background: var(--teal, #1c7c6d) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 8px rgba(28, 124, 109, 0.3);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.btn-compare-go:hover,
+.compare-actions .btn:hover {
+  background: #259e8b !important;
+  transform: scale(1.03);
+}
+
+.compare-clear {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.9);
+  border: 0;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.compare-clear:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* --- 5. Product Compare Modal --- */
+dialog.comparator {
+  border: 0;
+  padding: 0;
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--ink);
+  max-width: min(1080px, 95vw);
+  width: 100%;
+  max-height: 90vh;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+dialog.comparator::backdrop {
+  background: rgba(17, 26, 23, 0.65);
+  backdrop-filter: blur(12px);
+}
+.comp-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+}
+.comp-header {
+  padding: 1.4rem 1.8rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper-2);
+}
+.comp-header h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+.comp-close {
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  border: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
+}
+.comp-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+.comp-card {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+.comp-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: contain !important;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  margin-bottom: 0.85rem;
+  cursor: pointer;
+  transition: transform 200ms ease;
+}
+.comp-card img:hover {
+  transform: scale(1.03);
+}
+.comp-card h4 {
+  margin: 0 0 0.3rem;
+  font-size: 1.15rem;
+}
+.comp-card .comp-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--teal-deep);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+.comp-specs-list {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.88rem;
+}
+.comp-spec-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.35rem;
+}
+.comp-spec-row span { color: var(--ink-soft); }
+.comp-spec-row b { color: var(--ink); }
+.comp-card .btn {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+}
+
+/* --- 6. Quick Floating Contact Button (WhatsApp / Sopralluogo) --- */
+.floating-quick-contact {
+  position: fixed;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.quick-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--teal-deep);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.55rem 1.1rem 0.55rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 650;
+  box-shadow: 0 12px 28px rgba(17, 72, 67, 0.32);
+  transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275), background 180ms ease;
+}
+.quick-pill i {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: color-mix(in srgb, white 20%, transparent);
+  display: grid;
+  place-items: center;
+}
+.quick-pill svg { width: 15px; height: 15px; }
+.quick-pill:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: var(--teal);
+}
+@media (max-width: 899px) {
+  .floating-quick-contact {
+    display: none !important; /* La barra dock mobile inferiore integra già la CTA principale Sopralluogo */
+  }
+}
+
+/* --- 7. Breadcrumbs --- */
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.5rem;
+}
+.breadcrumbs a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 150ms ease;
+}
+.breadcrumbs a:hover {
+  color: var(--teal);
+}
+.breadcrumbs span {
+  opacity: 0.5;
+}
+.breadcrumbs strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --- 8. System Cards (Category Hubs & Stage) --- */
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.system-card {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 240ms ease, box-shadow 240ms ease;
+  position: relative;
+  cursor: pointer;
+}
+.system-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+}
+.system-card-media {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #edf2ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.2rem;
+}
+.system-card-media img {
+  max-width: 100%;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+  object-fit: contain !important;
+  transition: transform 350ms ease;
+}
+.system-card:hover .system-card-media img {
+  transform: scale(1.05);
+}
+.system-card-media::after {
+  content: "🔍 Ingrandisci";
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  background: rgba(17, 26, 23, 0.72);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 180ms ease, background 180ms ease;
+}
+.system-card:hover .system-card-media::after {
+  opacity: 1;
+  background: var(--teal-deep);
+}
+.system-card-body {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.system-card-body h3 {
+  margin: 0.3rem 0 0.5rem;
+  font-size: 1.2rem;
+}
+.system-card-body p {
+  margin: 0 0 1rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+.system-card-meta {
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  margin-bottom: 0.85rem;
+}
+.system-card-meta span { color: var(--ink-soft); }
+.system-card-meta b { color: var(--teal-deep); font-weight: 700; }
+
+
+
+/* --- Rotator & Enhanced UX in Product Finder --- */
+.finder-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(26, 111, 104, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.finder-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--teal), #10b981);
+  border-radius: 999px;
+  transition: width 3200ms linear;
+}
+
+.finder-progress-bar.is-reset {
+  transition: none !important;
+  width: 0% !important;
+}
+
+.finder-progress-bar.is-animating {
+  width: 100% !important;
+}
+
+.finder-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.finder-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(26, 111, 104, 0.12);
+  color: var(--teal-deep);
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(26, 111, 104, 0.22);
+}
+
+.finder-status-tag.is-custom {
+  background: rgba(26, 111, 104, 0.18);
+  color: var(--teal-deep);
+  border-color: var(--teal);
+}
+
+.badge-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseGreen 1.8s infinite;
+  display: inline-block;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.badge-check {
+  font-size: 0.9rem;
+  color: #10b981;
+  font-weight: 900;
+}
+
+.finder-rot-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.finder-rot-hint {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.finder-rot-arrows {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.finder-rot-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 160ms ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.finder-rot-btn:hover {
+  background: var(--teal);
+  color: #ffffff;
+  border-color: var(--teal);
+  transform: scale(1.08);
+}
+
+.finder-restart-btn {
+  background: transparent;
+  border: 1px dashed var(--teal);
+  color: var(--teal-deep);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 160ms ease;
+  margin-top: 0.4rem;
+}
+
+.finder-restart-btn:hover {
+  background: rgba(26, 111, 104, 0.1);
+}
+
+.finder-result-card {
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.finder-result-card.is-transitioning {
+  opacity: 0.15;
+  transform: scale(0.985);
+}
+
+@media (max-width: 768px) {
+  .finder-rot-hint {
+    display: none;
+  }
+  .finder-result-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+}

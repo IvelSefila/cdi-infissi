@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Richiedi informazioni — CDI Infissi</title>
+    <meta
+      name="description"
+      content="Sopralluogo gratuito e senza impegno. Lascia nome e telefono: CDI Infissi ti richiama per i tuoi nuovi serramenti."
+    />
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/catalog-modern.css" />
+    <link rel="stylesheet" href="css/richiedi.css" />
+  </head>
+  <body class="ask">
+    <a class="skip" href="#form">Vai al modulo</a>
+
+    <!-- INTESTAZIONE NAV: uguale alle altre pagine, cosi' il menu ☰ con
+         Home / Specifiche / Prenota Sopralluogo c'e' anche qui. -->
+    <header class="site-header">
+      <div class="nav-island">
+        <a class="logo" href="index.html" aria-label="CDI Infissi, inizio pagina">
+          <img src="assets/logo.png" alt="CDI Infissi" width="208" height="156" />
+        </a>
+        <nav aria-label="Principale">
+          <ul class="nav-links">
+            <li class="has-megamenu">
+              <a href="catalogo.html" class="megamenu-trigger">
+                Catalogo
+                <svg viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </a>
+              <div class="megamenu-panel">
+                <div class="megamenu-col">
+                  <h4><a href="finestre.html">Finestre</a></h4>
+                  <ul class="megamenu-list">
+                    <li><a class="megamenu-item" href="finestre.html"><img class="megamenu-thumb" src="assets/serramenti/finestra-6stars-view.webp" alt="" width="900" height="900" /><div class="megamenu-text"><strong>Alluminio Anta a Scomparsa</strong><span>Luce aumentata +20%</span></div></a></li>
+                    <li><a class="megamenu-item" href="finestre.html"><img class="megamenu-thumb" src="assets/serramenti/finestra-alu-complanare.webp" alt="" width="900" height="900" /><div class="megamenu-text"><strong>Alluminio Complanare</strong><span>Filo muro complanare 90°</span></div></a></li>
+                    <li><a class="megamenu-item" href="finestre.html"><img class="megamenu-thumb" src="assets/serramenti/finestra-7stars-pvc.webp" alt="" width="900" height="900" /><div class="megamenu-text"><strong>PVC Passivhaus 7 Camere</strong><span>Uw 0,68 W/m²K</span></div></a></li>
+                    <li><a class="megamenu-item" href="finestre.html"><img class="megamenu-thumb" src="assets/serramenti/finestra-pvc-termico-6camere.webp" alt="" width="900" height="900" /><div class="megamenu-text"><strong>PVC Termico 6 Camere</strong><span>6 camere ad alto isolamento</span></div></a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-col">
+                  <h4><a href="scorrevoli.html">Scorrevoli</a></h4>
+                  <ul class="megamenu-list">
+                    <li><a class="megamenu-item" href="scorrevoli.html"><img class="megamenu-thumb" src="assets/serramenti/scorrevole-paysage.png" alt="" width="1024" height="802" /><div class="megamenu-text"><strong>Scorrevole Panoramico</strong><span>Incasso a scomparsa totale</span></div></a></li>
+                    <li><a class="megamenu-item" href="scorrevoli.html"><img class="megamenu-thumb" src="assets/serramenti/scorrevole-smartslide.webp" alt="" width="900" height="692" /><div class="megamenu-text"><strong>Scorrevole Ermetico</strong><span>Guarnizioni a compressione</span></div></a></li>
+                    <li><a class="megamenu-item" href="scorrevoli.html"><img class="megamenu-thumb" src="assets/serramenti/scorrevole-bifold.webp" alt="" width="900" height="623" /><div class="megamenu-text"><strong>Scorrevole a Libro</strong><span>Apertura vano 100% totale</span></div></a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-col">
+                  <h4><a href="porte.html">Porte d'Ingresso</a></h4>
+                  <ul class="megamenu-list">
+                    <li><a class="megamenu-item" href="porte.html"><img class="megamenu-thumb" src="assets/serramenti/porta-athens.webp" alt="" width="488" height="1024" /><div class="megamenu-text"><strong>Porta Alluminio Complanare</strong><span>Alluminio e acciaio inox</span></div></a></li>
+                    <li><a class="megamenu-item" href="porte.html"><img class="megamenu-thumb" src="assets/serramenti/porta-dijon.webp" alt="" width="492" height="1024" /><div class="megamenu-text"><strong>Porta con Inserto Vetro</strong><span>Luce e privacy satinata</span></div></a></li>
+                    <li><a class="megamenu-item" href="porte.html"><img class="megamenu-thumb" src="assets/serramenti/porta-monza.webp" alt="" width="486" height="1024" /><div class="megamenu-text"><strong>Porta Blindata di Sicurezza</strong><span>Certificazione RC3</span></div></a></li>
+                  </ul>
+                </div>
+                <div class="megamenu-col">
+                  <h4><a href="sistemi.html">Ombreggianti & Sistemi</a></h4>
+                  <ul class="megamenu-list">
+                    <li><a class="megamenu-item" href="sistemi.html"><img class="megamenu-thumb" src="assets/serramenti/monoblocco-intonacabile.webp" alt="" width="1080" height="903" /><div class="megamenu-text"><strong>Monoblocco Termico</strong><span>Taglio termico totale foro</span></div></a></li>
+                    <li><a class="megamenu-item" href="sistemi.html"><img class="megamenu-thumb" src="assets/catalogo/veneziane.jpg" alt="" width="1254" height="1254" /><div class="megamenu-text"><strong>Veneziane nel Vetro</strong><span>Zero polvere e manutenzione</span></div></a></li>
+                    <li><a class="megamenu-item" href="sistemi.html"><img class="megamenu-thumb" src="assets/serramenti/zanzariere-rollout.webp" alt="" width="600" height="600" /><div class="megamenu-text"><strong>Zanzariere a Rullo</strong><span>Soglia calpestabile 3 mm</span></div></a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li><a href="finestre.html">Finestre</a></li>
+            <li><a href="scorrevoli.html">Scorrevoli</a></li>
+            <li><a href="porte.html">Porte</a></li>
+            <li><a href="sistemi.html">Sistemi</a></li>
+            <li><a href="dati-tecnici.html">Dati Tecnici</a></li>
+            <li><a href="richiedi.html" class="is-on">Sopralluogo</a></li>
+          </ul>
+        </nav>
+        <a class="btn nav-cta" href="richiedi.html">
+          Richiedi sopralluogo
+          <i aria-hidden="true"><svg viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4"/></svg></i>
+        </a>
+        <button class="burger" type="button" aria-label="Apri il menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MOBILE OVERLAY -->
+    <nav class="overlay-nav" aria-label="Menu e Catalogo mobile">
+      <!-- Barra Superiore Mobile con Logo e Tasto Chiudi ben visibile -->
+      <div class="mn-topbar">
+        <a class="mn-logo" href="index.html" aria-label="Home CDI Infissi">
+          <img src="assets/logo.png" alt="CDI Infissi" width="208" height="156" />
+        </a>
+        <button type="button" class="mn-close-btn" aria-label="Chiudi menu">
+          <span>Chiudi</span>
+          <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="overlay-nav-content">
+        <!-- Campo di Ricerca Immediata nel Catalogo -->
+        <div class="mn-search-wrap">
+          <input type="search" class="mn-search-input" placeholder="Cerca nel catalogo (es. Passivhaus, Slim, Blindata...)" data-mn-search aria-label="Cerca serramenti nel menu" />
+        </div>
+
+        <!-- Pillole Filtro Categorie Rapide -->
+        <div class="mn-filter-tabs" role="tablist">
+          <button type="button" class="mn-tab is-active" data-mn-filter="all">Tutti (24)</button>
+          <button type="button" class="mn-tab" data-mn-filter="finestre">Finestre (8)</button>
+          <button type="button" class="mn-tab" data-mn-filter="scorrevoli">Scorrevoli (4)</button>
+          <button type="button" class="mn-tab" data-mn-filter="porte">Porte (6)</button>
+          <button type="button" class="mn-tab" data-mn-filter="sistemi">Sistemi (6)</button>
+        </div>
+
+        <!-- Griglia Catalogo Completa 2 Colonne Ottimizzata Mobile -->
+        <div class="mn-catalog-grid" data-mn-grid>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="alluminio anta a scomparsa alluminio · scomparsa">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-6stars-view.webp" alt="Alluminio Anta a Scomparsa" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 0,86</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Alluminio Anta a Scomparsa</strong>
+              <small>Alluminio · Scomparsa</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="alluminio complanare alluminio · filo muro 90°">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-alu-complanare.webp" alt="Alluminio Complanare" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 1,00</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Alluminio Complanare</strong>
+              <small>Alluminio · Filo muro 90°</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="alluminio taglio termico alluminio · rinforzato">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-6stars-alu.webp" alt="Alluminio Taglio Termico" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 1,10</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Alluminio Taglio Termico</strong>
+              <small>Alluminio · Rinforzato</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="alluminio slim 70 mm alluminio · luce +20%">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-5stars-view.webp" alt="Alluminio Slim 70 mm" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 1,20</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Alluminio Slim 70 mm</strong>
+              <small>Alluminio · Luce +20%</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="pvc passivhaus 7 camere pvc · classe a (uw 0,68)">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-7stars-pvc.webp" alt="PVC Passivhaus 7 Camere" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 0,68</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>PVC Passivhaus 7 Camere</strong>
+              <small>PVC · Classe A (Uw 0,68)</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="pvc termico 6 camere pvc · 6 camere isolanti">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-pvc-termico-6camere.webp" alt="PVC Termico 6 Camere" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 0,76</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>PVC Termico 6 Camere</strong>
+              <small>PVC · 6 Camere isolanti</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="pvc isolante 5 camere pvc · robusto e bilanciato">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-5stars-pvc.webp" alt="PVC Isolante 5 Camere" loading="lazy" width="1920" height="1080" />
+              <span class="mn-item-badge">Uw 1,20</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>PVC Isolante 5 Camere</strong>
+              <small>PVC · Robusto e bilanciato</small>
+            </div>
+          </a>
+          <a href="finestre.html" class="mn-item" data-mn-cat="finestre" data-mn-title="pvc essenziale 4 camere pvc · pratico 70 mm">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/finestra-4stars-pvc.webp" alt="PVC Essenziale 4 Camere" loading="lazy" width="900" height="900" />
+              <span class="mn-item-badge">Uw 1,30</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>PVC Essenziale 4 Camere</strong>
+              <small>PVC · Pratico 70 mm</small>
+            </div>
+          </a>
+          <a href="scorrevoli.html" class="mn-item" data-mn-cat="scorrevoli" data-mn-title="scorrevole panoramico telaio a scomparsa">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/scorrevole-paysage.png" alt="Scorrevole Panoramico" loading="lazy" width="1024" height="802" />
+              <span class="mn-item-badge">Soglia 0 mm</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Scorrevole Panoramico</strong>
+              <small>Telaio a scomparsa</small>
+            </div>
+          </a>
+          <a href="scorrevoli.html" class="mn-item" data-mn-cat="scorrevoli" data-mn-title="scorrevole ermetico chiusura a compressione">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/scorrevole-smartslide.webp" alt="Scorrevole Ermetico" loading="lazy" width="900" height="692" />
+              <span class="mn-item-badge">Aria Cl. 4</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Scorrevole Ermetico</strong>
+              <small>Chiusura a compressione</small>
+            </div>
+          </a>
+          <a href="scorrevoli.html" class="mn-item" data-mn-cat="scorrevoli" data-mn-title="scorrevole a libro apertura vano 100%">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/scorrevole-bifold.webp" alt="Scorrevole a Libro" loading="lazy" width="900" height="623" />
+              <span class="mn-item-badge">Fisarmonica</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Scorrevole a Libro</strong>
+              <small>Apertura vano 100%</small>
+            </div>
+          </a>
+          <a href="scorrevoli.html" class="mn-item" data-mn-cat="scorrevoli" data-mn-title="alzante scorrevole termico grandi luci isolanti">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/scorrevole-paysage.png" alt="Alzante Scorrevole Termico" loading="lazy" width="1024" height="802" />
+              <span class="mn-item-badge">Uw 0,78</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Alzante Scorrevole Termico</strong>
+              <small>Grandi luci isolanti</small>
+            </div>
+          </a>
+          <a href="porte.html" class="mn-item" data-mn-cat="porte" data-mn-title="porta alluminio inox complanare filo muro">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/porta-athens.webp" alt="Porta Alluminio Inox" loading="lazy" width="488" height="1024" />
+              <span class="mn-item-badge">Ud 0,82</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Porta Alluminio Inox</strong>
+              <small>Complanare filo muro</small>
+            </div>
+          </a>
+          <a href="porte.html" class="mn-item" data-mn-cat="porte" data-mn-title="porta vetro satinato luce solare e privacy">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/porta-dijon.webp" alt="Porta Vetro Satinato" loading="lazy" width="492" height="1024" />
+              <span class="mn-item-badge">Vetro P4A</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Porta Vetro Satinato</strong>
+              <small>Luce solare e privacy</small>
+            </div>
+          </a>
+          <a href="porte.html" class="mn-item" data-mn-cat="porte" data-mn-title="porta blindata rc3 antieffrazione certificata">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/porta-monza.webp" alt="Porta Blindata RC3" loading="lazy" width="486" height="1024" />
+              <span class="mn-item-badge">Classe RC3</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Porta Blindata RC3</strong>
+              <small>Antieffrazione certificata</small>
+            </div>
+          </a>
+          <a href="porte.html" class="mn-item" data-mn-cat="porte" data-mn-title="portoncino termico pannello coibentato 90mm">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/porta-york.webp" alt="Portoncino Termico" loading="lazy" width="487" height="1024" />
+              <span class="mn-item-badge">Ud 0,82</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Portoncino Termico</strong>
+              <small>Pannello coibentato 90mm</small>
+            </div>
+          </a>
+          <a href="porte.html" class="mn-item" data-mn-cat="porte" data-mn-title="porta linea minimal finitura complanare pura">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/porta-leona.webp" alt="Porta Linea Minimal" loading="lazy" width="486" height="1024" />
+              <span class="mn-item-badge">Alluminio</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Porta Linea Minimal</strong>
+              <small>Finitura complanare pura</small>
+            </div>
+          </a>
+          <a href="porte.html" class="mn-item" data-mn-cat="porte" data-mn-title="porta blindata rinforzata rostri e cilindro europeo">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/porta-sicurezza.webp" alt="Porta Blindata Rinforzata" loading="lazy" width="488" height="1024" />
+              <span class="mn-item-badge">Sicurezza</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Porta Blindata Rinforzata</strong>
+              <small>Rostri e cilindro europeo</small>
+            </div>
+          </a>
+          <a href="sistemi.html" class="mn-item" data-mn-cat="sistemi" data-mn-title="monoblocco termico taglio termico totale foro">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/monoblocco-intonacabile.webp" alt="Monoblocco Termico" loading="lazy" width="1080" height="903" />
+              <span class="mn-item-badge">Zero Ponti</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Monoblocco Termico</strong>
+              <small>Taglio termico totale foro</small>
+            </div>
+          </a>
+          <a href="sistemi.html" class="mn-item" data-mn-cat="sistemi" data-mn-title="veneziane nel vetro zero polvere e manutenzione">
+            <div class="mn-item-media">
+              <img src="assets/catalogo/veneziane.jpg" alt="Veneziane nel Vetro" loading="lazy" width="1254" height="1254" />
+              <span class="mn-item-badge">Integrate</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Veneziane nel Vetro</strong>
+              <small>Zero polvere e manutenzione</small>
+            </div>
+          </a>
+          <a href="sistemi.html" class="mn-item" data-mn-cat="sistemi" data-mn-title="zanzariere roll-out guida calpestabile 3 mm">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/zanzariere-rollout.webp" alt="Zanzariere Roll-Out" loading="lazy" width="600" height="600" />
+              <span class="mn-item-badge">Filo Pavimento</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Zanzariere Roll-Out</strong>
+              <small>Guida calpestabile 3 mm</small>
+            </div>
+          </a>
+          <a href="sistemi.html" class="mn-item" data-mn-cat="sistemi" data-mn-title="zanzariere plissé rete plissettata antivento">
+            <div class="mn-item-media">
+              <img src="assets/serramenti/zanzariere-plisse.webp" alt="Zanzariere Plissé" loading="lazy" width="600" height="600" />
+              <span class="mn-item-badge">Antistrappo</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Zanzariere Plissé</strong>
+              <small>Rete plissettata antivento</small>
+            </div>
+          </a>
+          <a href="sistemi.html" class="mn-item" data-mn-cat="sistemi" data-mn-title="cerniere a scomparsa invisibili ad apertura 180°">
+            <div class="mn-item-media">
+              <img src="assets/catalogo/cerniere-interne.jpg" alt="Cerniere a Scomparsa" loading="lazy" width="1254" height="1254" />
+              <span class="mn-item-badge">180° Invisibili</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Cerniere a Scomparsa</strong>
+              <small>Invisibili ad apertura 180°</small>
+            </div>
+          </a>
+          <a href="sistemi.html" class="mn-item" data-mn-cat="sistemi" data-mn-title="taglio termico isolante isolamento in poliammide">
+            <div class="mn-item-media">
+              <img src="assets/catalogo/taglio-termico.jpg" alt="Taglio Termico Isolante" loading="lazy" width="1254" height="1254" />
+              <span class="mn-item-badge">High Tech</span>
+            </div>
+            <div class="mn-item-info">
+              <strong>Taglio Termico Isolante</strong>
+              <small>Isolamento in poliammide</small>
+            </div>
+          </a>
+        </div>
+
+        <!-- Link Rapidi Istituzionali -->
+        <div class="mn-secondary-links">
+          <a href="catalogo.html" class="mn-sec-link">
+            <span>Sfoglia Catalogo Completo Web</span>
+            <i>&rarr;</i>
+          </a>
+          <a href="dati-tecnici.html" class="mn-sec-link">
+            <span>Centrale Dati Tecnici & Matrice CE</span>
+            <i>&rarr;</i>
+          </a>
+          <a href="dati-tecnici.html#posa" class="mn-sec-link">
+            <span>Guida Posa Qualificata UNI 11673-1</span>
+            <i>&rarr;</i>
+          </a>
+          <a href="mailto:infissicdi@gmail.com" class="mn-sec-link">
+            <span>Scrivici direttamente via Email</span>
+            <i>&rarr;</i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Barra di Azione Rapida Fissa in Basso nel Menu -->
+      <div class="mn-bottom-bar">
+        <a href="index.html" class="btn btn-ghost mn-action-btn mn-action-home" aria-label="Home">
+          <span>🏠</span> Home
+        </a>
+        <a href="dati-tecnici.html" class="btn btn-ghost mn-action-btn">
+          <span>📊</span> Specifiche
+        </a>
+        <a href="richiedi.html" class="btn mn-action-btn mn-action-primary">
+          Prenota Sopralluogo
+        </a>
+      </div>
+    </nav>
+    <div class="ask-bg" aria-hidden="true">
+      <img src="assets/hero-soggiorno.webp" alt="" width="1619" height="971" />
+    </div>
+
+
+    <main class="ask-wrap" style="padding-top: 5.5rem;">
+      <section class="ask-card" id="form">
+        <h2>Richiedi informazioni</h2>
+        <p class="lede">Nome e telefono per primi: così non perdiamo il contatto. Le altre domande sono facoltative.</p>
+        <form data-mail>
+          <div class="form-row">
+            <label>Nome
+              <input name="nome" autocomplete="name" required />
+            </label>
+            <label>Telefono
+              <input name="telefono" type="tel" autocomplete="tel" required inputmode="tel" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Email <small style="font-weight:400;color:var(--muted)">(facoltativa)</small>
+              <input name="email" type="email" autocomplete="email" />
+            </label>
+            <label>Città
+              <input name="citta" autocomplete="address-level2" />
+            </label>
+          </div>
+
+          <div class="choice">
+            <span>Che intervento ti serve?</span>
+            <div class="choice-row">
+              <label><input type="radio" name="intervento" value="Sostituzione" /> Sostituzione</label>
+              <label><input type="radio" name="intervento" value="Nuova costruzione" /> Nuova costruzione</label>
+              <label><input type="radio" name="intervento" value="Non so ancora" /> Non so ancora</label>
+            </div>
+          </div>
+
+          <label>Linea o prodotto di interesse
+            <select name="linea">
+              <option value="">Consigliatemi voi durante il sopralluogo</option>
+              <optgroup label="Finestre in Alluminio">
+                <option>Alluminio Anta a Scomparsa — cerniere a scomparsa, massima luce</option>
+                <option>Alluminio a Taglio Termico Rinforzato — barriera multicamera</option>
+                <option>Alluminio Slim 70 mm — profilo snello ribassato</option>
+                <option>Alluminio Complanare Filo Muro — design complanare a 90°</option>
+              </optgroup>
+              <optgroup label="Finestre in PVC">
+                <option>PVC Passivhaus 7 Camere — Uw 0,68 per case passive</option>
+                <option>PVC Termico 6 Camere — 6 camere, triplo vetro</option>
+                <option>PVC Isolante 5 Camere — linea classica 70 mm</option>
+                <option>PVC Essenziale 4 Camere — versatile ed economico</option>
+              </optgroup>
+              <optgroup label="Aperture Scorrevoli Panoramiche">
+                <option>Scorrevole Panoramico Minimale — telaio a scomparsa</option>
+                <option>Scorrevole Parallelo Ermetico — scorrimento ermetico</option>
+                <option>Alzante Scorrevole Panoramico — grandi vetrate</option>
+                <option>Scorrevole a Libro Impacchettabile — apertura totale</option>
+              </optgroup>
+              <optgroup label="Porte d'Ingresso & Blindate">
+                <option>Porta Alluminio Complanare con Inserti Inox</option>
+                <option>Porta Alluminio con Vetrocamera Satinata</option>
+                <option>Porta Blindata di Sicurezza RC3</option>
+              </optgroup>
+              <optgroup label="Ombreggianti & Zanzariere">
+                <option>Monoblocco termoisolante intonacabile</option>
+                <option>Veneziane interne al vetrocamera</option>
+                <option>Zanzariere a Rullo Guidato / Plissettate</option>
+              </optgroup>
+              <option value="Ristrutturazione completa">Ristrutturazione completa / Più serramenti</option>
+            </select>
+          </label>
+
+          <label>Quando vorresti partire
+            <select name="quando">
+              <option value="">Non ho fretta</option>
+              <option>Entro un mese</option>
+              <option>Entro tre mesi</option>
+              <option>Sto solo informandomi</option>
+            </select>
+          </label>
+
+          <label>Note
+            <textarea name="messaggio" placeholder="Piano, numero di finestre, rumore dalla strada…"></textarea>
+          </label>
+
+          <label class="privacy">
+            <input type="checkbox" name="privacy" required />
+            <span>Acconsento al trattamento dei dati solo per richiamarmi sul sopralluogo. Non cediamo liste, non mandiamo newsletter.</span>
+          </label>
+
+          <p class="note" data-error></p>
+          <button class="btn" type="submit">
+            Richiedi un sopralluogo gratuito
+            <i aria-hidden="true"><svg viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4"/></svg></i>
+          </button>
+          <p class="reassure">Nessun impegno. Ti richiamiamo noi: non devi inseguire un preventivo.</p>
+        </form>
+      </section>
+
+      <section class="ask-intro">
+        <h1>Un sopralluogo. Nessun impegno. Poi i numeri veri.</h1>
+        <p>
+          Basta nome e telefono. Il resto è facoltativo e ci serve solo per arrivare già preparati. Nessun preventivo al buio, nessun impegno.
+        </p>
+        <ol class="steps">
+          <li>
+            <b>1</b>
+            <div>
+              <span>Ci scrivi da qui</span>
+              <small>Due minuti, dal divano.</small>
+            </div>
+          </li>
+          <li>
+            <b>2</b>
+            <div>
+              <span>Ti richiamiamo</span>
+              <small>Per capire il vano e quale configurazione sia ideale.</small>
+            </div>
+          </li>
+          <li>
+            <b>3</b>
+            <div>
+              <span>Veniamo a misurare</span>
+              <small>Sopralluogo gratuito. Preventivo dopo, non prima.</small>
+            </div>
+          </li>
+        </ol>
+        <div class="trust">
+          <span>Senza impegno</span>
+          <span>IFT Rosenheim</span>
+          <span>TÜV · CE</span>
+          <span>Niente listino al buio</span>
+        </div>
+      </section>
+    </main>
+    <p class="ask-foot">CDI Infissi · <a href="mailto:infissicdi@gmail.com">infissicdi@gmail.com</a></p>
+    <script src="js/main.js"></script>
+    <script src="js/richiedi.js"></script>
+  </body>
+</html>
