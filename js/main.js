@@ -855,3 +855,130 @@
   bg.addEventListener("click", punto);
   punto();
 })();
+
+
+/* Filtri del menu: si scorrono anche col mouse (trascinando o con la rotella), con inerzia; col dito scorrono già da soli */
+(() => {
+  document.querySelectorAll(".mn-filter-tabs").forEach((el) => {
+    let giu = false, x0 = 0, s0 = 0, mosso = 0, campioni = [], raf = 0;
+    el.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button) return;
+      cancelAnimationFrame(raf);
+      giu = true; mosso = 0; x0 = e.clientX; s0 = el.scrollLeft;
+      campioni = [{ x: e.clientX, t: performance.now() }];
+    });
+    el.addEventListener("pointermove", (e) => {
+      if (!giu) return;
+      const dx = e.clientX - x0;
+      mosso = Math.max(mosso, Math.abs(dx));
+      if (mosso > 5 && !el.classList.contains("is-trascina")) {
+        el.classList.add("is-trascina");
+        try { el.setPointerCapture(e.pointerId); } catch (er) {}
+      }
+      el.scrollLeft = s0 - dx;
+      const ora = performance.now();
+      campioni.push({ x: e.clientX, t: ora });
+      while (campioni.length > 1 && ora - campioni[0].t > 100) campioni.shift();
+    });
+    const lascia = () => {
+      if (!giu) return;
+      giu = false;
+      el.classList.remove("is-trascina");
+      const a = campioni[0], b = campioni[campioni.length - 1];
+      let v = b.t > a.t ? -(b.x - a.x) / (b.t - a.t) : 0; /* px al millisecondo */
+      v = Math.max(-3, Math.min(3, v));
+      let prec = performance.now();
+      const passo = (ora) => {
+        const dt = Math.min(50, ora - prec); prec = ora;
+        el.scrollLeft += v * dt;
+        v *= Math.pow(0.94, dt / 16.7);
+        if (Math.abs(v) > 0.02) raf = requestAnimationFrame(passo);
+      };
+      if (Math.abs(v) > 0.05) raf = requestAnimationFrame(passo);
+      setTimeout(() => { mosso = 0; }, 80);
+    };
+    el.addEventListener("pointerup", lascia);
+    el.addEventListener("pointercancel", lascia);
+    /* dopo un trascinamento il clic non deve cambiare il filtro */
+    el.addEventListener("click", (e) => { if (mosso > 5) { e.preventDefault(); e.stopPropagation(); } }, true);
+    /* la rotella verticale sposta la fila in orizzontale */
+    el.addEventListener("wheel", (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && el.scrollWidth > el.clientWidth) {
+        el.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+    el.addEventListener("dragstart", (e) => e.preventDefault());
+  });
+})();
+
+
+/* Filtri del menu: scorrono da soli in tondo (come le altre strisce). Si fermano quando li tocchi o ci passi sopra col mouse,
+   e ripartono poco dopo. I filtri copiati sono solo grafica: toccarli attiva quello vero. */
+(() => {
+  const el = document.querySelector(".mn-filter-tabs");
+  if (!el) return;
+  /* "Tutti" resta fermo a sinistra: gli altri filtri scorrono accanto */
+  const tutti = el.querySelector('[data-mn-filter="all"]');
+  if (tutti && !el.parentElement.classList.contains("mn-filter-row")) {
+    const riga = document.createElement("div");
+    riga.className = "mn-filter-row";
+    el.before(riga);
+    riga.append(tutti, el);
+  }
+  const calmo = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const originali = [...el.querySelectorAll(".mn-tab")];
+  if (!originali.length) return;
+  const copie = originali.map((t) => {
+    const c = t.cloneNode(true);
+    c.dataset.copia = "";
+    c.setAttribute("aria-hidden", "true");
+    c.tabIndex = -1;
+    return c;
+  });
+  copie.forEach((c) => el.append(c));
+  /* le copie girano con lo stesso stato e lo stesso clic degli originali */
+  copie.forEach((c, i) => c.addEventListener("click", (e) => { e.stopPropagation(); originali[i].click(); }));
+  const sync = () => copie.forEach((c, i) => c.classList.toggle("is-active", originali[i].classList.contains("is-active")));
+  new MutationObserver(sync).observe(el, { subtree: true, attributes: true, attributeFilter: ["class"] });
+
+  let pos = 0, assegnato = 0, ferma = 0, sopra = false, visibile = false, rafId = 0, ultimo = 0;
+  const AUTO = calmo ? 0 : 0.045; /* px al millisecondo */
+  const larghezzaSet = () => (copie[0].offsetLeft - originali[0].offsetLeft) || 1;
+  const pausa = (ms) => { ferma = performance.now() + ms; };
+
+  const passo = (ora) => {
+    const dt = Math.min(50, ora - (ultimo || ora));
+    ultimo = ora;
+    if (AUTO && !sopra && ora > ferma && el.offsetParent !== null) {
+      const L = larghezzaSet();
+      pos += AUTO * dt;
+      if (pos >= L) pos -= L;
+      el.scrollLeft = pos;
+      assegnato = el.scrollLeft;
+    }
+    rafId = visibile ? requestAnimationFrame(passo) : 0;
+  };
+  /* scorrimento fatto dall'utente: si riparte da lì, dopo una pausa */
+  el.addEventListener("scroll", () => {
+    if (Math.abs(el.scrollLeft - assegnato) > 2) {
+      pos = el.scrollLeft;
+      const L = larghezzaSet();
+      if (pos >= L) { pos -= L; el.scrollLeft = pos; }
+      assegnato = el.scrollLeft;
+      pausa(1800);
+    }
+  }, { passive: true });
+  for (const ev of ["pointerdown", "touchstart", "wheel"]) el.addEventListener(ev, () => pausa(2200), { passive: true });
+  el.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") sopra = true; });
+  el.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { sopra = false; pausa(600); } });
+
+  /* gira solo quando il menu e' aperto */
+  const ov = document.querySelector(".overlay-nav");
+  const aggiorna = () => {
+    visibile = document.body.classList.contains("nav-open");
+    if (visibile) { pos = el.scrollLeft; assegnato = el.scrollLeft; ultimo = 0; if (!rafId) rafId = requestAnimationFrame(passo); }
+  };
+  new MutationObserver(aggiorna).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  aggiorna();
+})();

@@ -2073,3 +2073,24 @@ body.nav-open .overlay-nav .mn-bottom-bar { opacity: 1; transform: none; transit
 /* Pulsante aperto: due linee che formano una X pulita (prima il contenitore ruotava e diventava un rombo) */
 body.nav-open .burger > .burger-lines { background: none !important; transform: none !important; }
 body.nav-open .burger .burger-lines span { background: #ffffff !important; }
+
+
+/* Filtri del menu: trascinabili col mouse */
+.mn-filter-tabs { cursor: grab; scroll-behavior: auto; -webkit-overflow-scrolling: touch; user-select: none; -webkit-user-select: none; }
+.mn-filter-tabs.is-trascina { cursor: grabbing; }
+.mn-filter-tabs.is-trascina .mn-tab { pointer-events: none; }
+
+
+/* Filtri del menu che scorrono da soli: sfumatura ai lati, le copie sono solo grafica */
+.mn-filter-tabs {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+}
+
+/* "Tutti" fermo, gli altri filtri scorrono */
+.mn-filter-row { display: flex; align-items: flex-start; gap: 0.45rem; margin-bottom: 1rem; }
+.mn-filter-row > .mn-tab { flex: none; }
+.mn-filter-row > .mn-filter-tabs { flex: 1 1 auto; min-width: 0; margin-bottom: 0; }
+
+/* Pulsante "Prenota Sopralluogo" del menu: bianco */
+.overlay-nav .mn-action-primary { background: #ffffff; color: #0f1e1c; border-color: #ffffff; }
