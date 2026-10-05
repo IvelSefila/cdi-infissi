@@ -1858,3 +1858,218 @@ input:focus, select:focus, textarea:focus {
   letter-spacing: 0.04em;
 }
 
+
+
+/* Blocchi vantaggi su telefono: striscia che gira in tondo (js/main.js) */
+.benefit-track--giro {
+  display: block;
+  overflow: hidden;
+  scroll-snap-type: none;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+}
+.benefit-track--tira { cursor: grabbing; }
+.benefit-binario { display: flex; gap: 0.7rem; width: max-content; will-change: transform; }
+.benefit-binario article { flex: none; width: min(78vw, 280px); scroll-snap-align: none; }
+
+
+/* Telefono: niente barra bianca, solo il pulsante menu con dentro il logo CDI */
+@media (max-width: 899px) {
+  .nav-island {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    justify-content: flex-end;
+  }
+  .nav-island > .logo { display: none; }
+  .burger {
+    width: auto;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0 1.1rem 0 0.5rem;
+    box-shadow: 0 6px 22px rgba(23, 26, 25, 0.28);
+  }
+  .burger-logo {
+    display: block;
+    height: 40px;
+    width: auto;
+    border-radius: 10px;
+    background: #fff;
+    padding: 4px 6px;
+  }
+  .burger-lines { position: relative; width: 24px; height: 24px; flex: none; }
+  .burger-lines span {
+    position: absolute; left: 1px; right: 1px; height: 1.5px; background: currentColor;
+    transition: transform 260ms var(--ease-drawer);
+  }
+  .burger-lines span:first-child { top: 8px; }
+  .burger-lines span:last-child { top: 15px; }
+  .burger > span:not(.burger-lines) { display: none; }
+  body.nav-open .burger-lines span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  body.nav-open .burger-lines span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  body.nav-open .burger-lines span { background: #ffffff !important; }
+}
+
+@media (max-width: 899px) {
+  .burger .burger-lines { position: relative; left: auto; right: auto; top: auto; width: 24px; height: 24px; background: none; transition: none; flex: none; }
+}
+
+@media (max-width: 899px) {
+  .burger > .burger-lines { position: relative !important; left: auto !important; right: auto !important; top: auto !important; width: 24px; height: 24px !important; background: none !important; flex: none; }
+  .hero .hero-copy { padding-top: 5.2rem; }
+}
+
+/* Pulsante menu bianco con barrette nere (telefono) */
+@media (max-width: 899px) {
+  .burger { background: #ffffff; color: #171a19; }
+  .burger-logo { background: transparent; padding: 0; border-radius: 0; height: 38px; }
+  body.nav-open .burger { background: var(--teal-deep, #114843); color: #ffffff; }
+}
+
+/* Telefono: la barra fissa in basso non deve coprire la fine della pagina */
+@media (max-width: 899px) {
+  .site-footer { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)) !important; }
+  body:not(:has(.site-footer)) { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); }
+}
+
+
+/* ===== Menu mobile: apertura a cerchio dal pulsante, ingresso a cascata, aspetto scuro e pulito ===== */
+.overlay-nav {
+  --mx: calc(100% - 3.2rem);
+  --my: 2.6rem;
+  background: radial-gradient(120% 80% at 80% 0%, #17413c 0%, #0f1e1c 55%, #0b1413 100%);
+  color: #f2f7f5;
+  opacity: 1;
+  transform: none;
+  visibility: hidden;
+  pointer-events: none;
+  clip-path: circle(0px at var(--mx) var(--my));
+  -webkit-clip-path: circle(0px at var(--mx) var(--my));
+  transition:
+    clip-path 620ms cubic-bezier(0.77, 0, 0.175, 1),
+    -webkit-clip-path 620ms cubic-bezier(0.77, 0, 0.175, 1),
+    visibility 0s linear 620ms;
+}
+body.nav-open .overlay-nav {
+  visibility: visible;
+  pointer-events: auto;
+  clip-path: circle(150vmax at var(--mx) var(--my));
+  -webkit-clip-path: circle(150vmax at var(--mx) var(--my));
+  transition:
+    clip-path 760ms cubic-bezier(0.77, 0, 0.175, 1),
+    -webkit-clip-path 760ms cubic-bezier(0.77, 0, 0.175, 1),
+    visibility 0s;
+}
+
+/* barra in alto: logo su pastiglia bianca e pulsante di chiusura chiaro */
+.overlay-nav .mn-topbar {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.overlay-nav .mn-logo { display: inline-flex; background: #fff; border-radius: 12px; padding: 6px 10px; }
+.overlay-nav .mn-logo img { height: 24px; }
+.overlay-nav .mn-close-btn {
+  background: #ffffff; color: #171a19; box-shadow: none;
+}
+.overlay-nav .mn-close-btn:active { background: #dcebe7; transform: scale(0.95); }
+
+/* ricerca e filtri */
+.overlay-nav .mn-search-input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+  box-shadow: none;
+}
+.overlay-nav .mn-search-input::placeholder { color: rgba(255, 255, 255, 0.55); }
+.overlay-nav .mn-search-input:focus {
+  border-color: #79ddcc;
+  box-shadow: 0 0 0 3px rgba(121, 221, 204, 0.22);
+}
+.overlay-nav .mn-tab {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.82);
+}
+.overlay-nav .mn-tab.is-active {
+  background: #ffffff; color: #0f1e1c; border-color: #ffffff; box-shadow: none;
+}
+
+/* schede prodotto: vetro scuro, la foto resta su fondo bianco */
+.overlay-nav .mn-item {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: #f2f7f5;
+  box-shadow: none;
+}
+.overlay-nav .mn-item-info small { color: rgba(255, 255, 255, 0.62); }
+.overlay-nav .mn-secondary-links { border-top-color: rgba(255, 255, 255, 0.12); }
+.overlay-nav .mn-sec-link {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.13);
+  color: #f2f7f5;
+}
+.overlay-nav .mn-sec-link i { color: #79ddcc; }
+.overlay-nav .mn-bottom-bar {
+  background: rgba(11, 20, 19, 0.82);
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+.overlay-nav .mn-action-btn:not(.mn-action-primary) {
+  background: rgba(255, 255, 255, 0.1); color: #fff; border-color: rgba(255, 255, 255, 0.18);
+}
+.overlay-nav .mn-action-primary { background: #79ddcc; color: #0f1e1c; }
+
+/* ingresso a cascata: ogni parte sale e compare dopo l'apertura del cerchio */
+.overlay-nav .mn-topbar,
+.overlay-nav .mn-search-wrap,
+.overlay-nav .mn-filter-tabs,
+.overlay-nav .mn-catalog-grid .mn-item,
+.overlay-nav .mn-secondary-links,
+.overlay-nav .mn-bottom-bar {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 320ms ease, transform 520ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+body.nav-open .overlay-nav .mn-topbar { opacity: 1; transform: none; transition-delay: 220ms; }
+body.nav-open .overlay-nav .mn-search-wrap { opacity: 1; transform: none; transition-delay: 300ms; }
+body.nav-open .overlay-nav .mn-filter-tabs { opacity: 1; transform: none; transition-delay: 360ms; }
+body.nav-open .overlay-nav .mn-catalog-grid .mn-item {
+  opacity: 1; transform: none;
+  transition-delay: calc(420ms + var(--i, 12) * 45ms);
+}
+body.nav-open .overlay-nav .mn-secondary-links { opacity: 1; transform: none; transition-delay: 900ms; }
+body.nav-open .overlay-nav .mn-bottom-bar { opacity: 1; transform: none; transition-delay: 480ms; }
+.mn-catalog-grid .mn-item:nth-child(1) { --i: 1; }
+.mn-catalog-grid .mn-item:nth-child(2) { --i: 2; }
+.mn-catalog-grid .mn-item:nth-child(3) { --i: 3; }
+.mn-catalog-grid .mn-item:nth-child(4) { --i: 4; }
+.mn-catalog-grid .mn-item:nth-child(5) { --i: 5; }
+.mn-catalog-grid .mn-item:nth-child(6) { --i: 6; }
+.mn-catalog-grid .mn-item:nth-child(7) { --i: 7; }
+.mn-catalog-grid .mn-item:nth-child(8) { --i: 8; }
+.mn-catalog-grid .mn-item:nth-child(9) { --i: 9; }
+.mn-catalog-grid .mn-item:nth-child(10) { --i: 10; }
+.mn-catalog-grid .mn-item:nth-child(11) { --i: 11; }
+.mn-catalog-grid .mn-item:nth-child(12) { --i: 12; }
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay-nav, body.nav-open .overlay-nav { transition: visibility 0s; clip-path: none; -webkit-clip-path: none; }
+  .overlay-nav { opacity: 0; }
+  body.nav-open .overlay-nav { opacity: 1; }
+  .overlay-nav * { transition-delay: 0s !important; transition-duration: 0s !important; }
+}
+
+.overlay-nav .mn-item-info strong { color: #ffffff; }
+.overlay-nav .mn-item-badge { background: rgba(255, 255, 255, 0.92); color: #0f1e1c; }
+
+/* Pulsante aperto: due linee che formano una X pulita (prima il contenitore ruotava e diventava un rombo) */
+body.nav-open .burger > .burger-lines { background: none !important; transform: none !important; }
+body.nav-open .burger .burger-lines span { background: #ffffff !important; }

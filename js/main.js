@@ -164,9 +164,8 @@
   /* Su schermo touch il tilt resta spento di default: un dito che
      trascina sull'immagine deve prima di tutto far scorrere la pagina,
      come su ogni sito. Solo chi tocca apposta il tasto "Attiva e
-     naviga" ottiene il tilt, e da quel momento il trascinamento DENTRO
-     l'hero muove l'immagine invece di scrollare — fuori dall'hero la
-     pagina scorre come sempre. */
+     naviga" ottiene il tilt: da quel momento l'immagine segue il dito
+     ma la pagina continua a scorrere, mai bloccata. */
   if (hero && heroImg && !finePointer && !reduce && window.matchMedia("(pointer: coarse)").matches) {
     const overlay = document.createElement("button");
     overlay.type = "button";
@@ -183,13 +182,13 @@
     });
     hero.addEventListener("touchmove", (event) => {
       if (!attivo) return;
-      event.preventDefault();
+      /* niente preventDefault: il dito muove l'immagine ma la pagina scorre comunque */
       const t = event.touches[0];
       const box = hero.getBoundingClientRect();
       tx = ((t.clientX - box.left) / box.width - 0.5) * 14;
       ty = ((t.clientY - box.top) / box.height - 0.5) * 10;
       heroImg.style.transform = `scale(1.07) translate(${tx}px, ${ty}px)`;
-    }, { passive: false });
+    }, { passive: true });
     hero.addEventListener("touchend", () => {
       if (!attivo) return;
       heroImg.style.transform = "scale(1.05)";
@@ -699,4 +698,160 @@
       "Richiesta sopralluogo — CDI Infissi"
     )}&body=${encodeURIComponent(bodyText)}`;
   });
+})();
+
+
+/* I blocchi "Perché scegliere CDI Infissi" su telefono girano in tondo come la
+   striscia del portfolio: vanno da soli piano, si trascinano col dito con
+   inerzia e finita l'ultima ricomincia dalla prima. Su schermo largo restano
+   la griglia a quattro colonne. */
+(() => {
+  const track = document.querySelector(".benefit-track");
+  if (!track) return;
+  const mq = window.matchMedia("(max-width: 899px)");
+  const calmo = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const AUTO = calmo ? 0 : 0.03; /* px al millisecondo */
+  const originali = [...track.children];
+  let binario = null, giro = 0, larghezzaSet = 1, verso = 1, velocita = AUTO, inerzia = false;
+  let tenuto = false, sopra = false, visibile = false, xPrec = 0, mosso = 0, campioni = [], ultimo = 0, rafId = 0;
+  let io = null;
+
+  const disegna = () => {
+    const x = ((giro % larghezzaSet) + larghezzaSet) % larghezzaSet;
+    binario.style.transform = `translate3d(${-x}px,0,0)`;
+  };
+  const passo = (ora) => {
+    if (!binario) { rafId = 0; return; }
+    const dt = Math.min(50, ora - (ultimo || ora));
+    ultimo = ora;
+    if (!tenuto) {
+      const bersaglio = sopra ? 0 : verso * AUTO;
+      const attrito = inerzia ? 0.94 : 0.88;
+      velocita = bersaglio + (velocita - bersaglio) * Math.pow(attrito, dt / 16.7);
+      if (inerzia && Math.abs(velocita - bersaglio) < 0.004) inerzia = false;
+      giro += velocita * dt;
+      disegna();
+    }
+    rafId = visibile ? requestAnimationFrame(passo) : 0;
+  };
+  const copie = () => {
+    binario.querySelectorAll("[data-copia]").forEach((c) => c.remove());
+    const copia = (el) => { const c = el.cloneNode(true); c.dataset.copia = ""; c.setAttribute("aria-hidden", "true"); return c; };
+    originali.forEach((o) => binario.append(copia(o)));
+    const prima = binario.querySelector("[data-copia]");
+    larghezzaSet = (prima.offsetLeft - originali[0].offsetLeft) || 1;
+    const servono = Math.ceil(track.clientWidth / larghezzaSet);
+    for (let n = 0; n < servono; n++) originali.forEach((o) => binario.append(copia(o)));
+  };
+
+  const giu = (e) => {
+    if (e.button) return;
+    tenuto = true; mosso = 0; xPrec = e.clientX; inerzia = false; velocita = 0;
+    campioni = [{ x: e.clientX, t: performance.now() }];
+  };
+  const muovi = (e) => {
+    if (!tenuto) return;
+    const dx = e.clientX - xPrec;
+    xPrec = e.clientX;
+    mosso += Math.abs(dx);
+    if (mosso > 6 && !track.classList.contains("benefit-track--tira")) {
+      try { track.setPointerCapture(e.pointerId); } catch (er) {}
+      track.classList.add("benefit-track--tira");
+    }
+    giro -= dx;
+    disegna();
+    const ora = performance.now();
+    campioni.push({ x: e.clientX, t: ora });
+    while (campioni.length > 1 && ora - campioni[0].t > 100) campioni.shift();
+  };
+  const su = (e) => {
+    if (!tenuto) return;
+    tenuto = false;
+    track.classList.remove("benefit-track--tira");
+    const a = campioni[0], b = campioni[campioni.length - 1];
+    const dt = b.t - a.t;
+    const v = (e.type === "pointerup" && dt > 0) ? Math.max(-3, Math.min(3, -(b.x - a.x) / dt)) : 0;
+    if (Math.abs(v) > 0.05) verso = Math.sign(v);
+    velocita = calmo ? 0 : v;
+    inerzia = !calmo;
+  };
+  const entra = (e) => { if (e.pointerType === "mouse") sopra = true; };
+  const esce = (e) => { if (e.pointerType === "mouse") sopra = false; };
+  const noDrag = (e) => e.preventDefault();
+
+  const accendi = () => {
+    if (binario) return;
+    binario = document.createElement("div");
+    binario.className = "benefit-binario";
+    binario.append(...originali);
+    track.append(binario);
+    track.classList.add("benefit-track--giro");
+    copie();
+    disegna();
+    track.addEventListener("pointerdown", giu);
+    track.addEventListener("pointermove", muovi);
+    track.addEventListener("pointerup", su);
+    track.addEventListener("pointercancel", su);
+    track.addEventListener("pointerenter", entra);
+    track.addEventListener("pointerleave", esce);
+    track.addEventListener("dragstart", noDrag);
+    io = new IntersectionObserver((es) => {
+      visibile = es[0].isIntersecting;
+      if (visibile && !rafId) { ultimo = 0; rafId = requestAnimationFrame(passo); }
+    }, { rootMargin: "80px" });
+    io.observe(track);
+  };
+  const spegni = () => {
+    if (!binario) return;
+    io?.disconnect();
+    track.removeEventListener("pointerdown", giu);
+    track.removeEventListener("pointermove", muovi);
+    track.removeEventListener("pointerup", su);
+    track.removeEventListener("pointercancel", su);
+    track.removeEventListener("pointerenter", entra);
+    track.removeEventListener("pointerleave", esce);
+    track.removeEventListener("dragstart", noDrag);
+    binario.querySelectorAll("[data-copia]").forEach((c) => c.remove());
+    track.append(...originali);
+    binario.remove();
+    binario = null;
+    track.classList.remove("benefit-track--giro", "benefit-track--tira");
+  };
+  const aggiorna = () => (mq.matches ? accendi() : spegni());
+  aggiorna();
+  mq.addEventListener("change", aggiorna);
+  window.addEventListener("resize", () => { if (binario) { copie(); disegna(); } });
+})();
+
+
+/* Configuratore: gli step si aprono a tendina dal pulsante "Usa il configuratore" */
+(() => {
+  const btn = document.querySelector("[data-finder-apri]");
+  const passi = document.getElementById("finder-passi");
+  if (!btn || !passi) return;
+  const etichetta = btn.querySelector("span");
+  passi.inert = true;
+  btn.addEventListener("click", () => {
+    const apri = btn.getAttribute("aria-expanded") !== "true";
+    btn.setAttribute("aria-expanded", String(apri));
+    passi.classList.toggle("is-aperto", apri);
+    passi.inert = !apri;
+    if (etichetta) etichetta.textContent = apri ? "Nascondi il configuratore" : "Usa il configuratore";
+  });
+})();
+
+
+/* Menu mobile: il cerchio di apertura parte dal centro del pulsante */
+(() => {
+  const ov = document.querySelector(".overlay-nav");
+  const bg = document.querySelector(".burger");
+  if (!ov || !bg) return;
+  const punto = () => {
+    const r = bg.getBoundingClientRect();
+    ov.style.setProperty("--mx", Math.round(r.left + r.width / 2) + "px");
+    ov.style.setProperty("--my", Math.round(r.top + r.height / 2) + "px");
+  };
+  bg.addEventListener("pointerdown", punto, { passive: true });
+  bg.addEventListener("click", punto);
+  punto();
 })();
