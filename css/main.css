@@ -2094,3 +2094,16 @@ body.nav-open .burger .burger-lines span { background: #ffffff !important; }
 
 /* Pulsante "Prenota Sopralluogo" del menu: bianco */
 .overlay-nav .mn-action-primary { background: #ffffff; color: #0f1e1c; border-color: #ffffff; }
+
+/* Video centrale tra i vantaggi e il configuratore */
+.video-crash { display: flex; justify-content: center; }
+.video-crash video {
+  display: block; width: min(100%, 340px); height: auto; aspect-ratio: 9 / 16;
+  border-radius: 24px; background: #0b1413; object-fit: cover;
+  box-shadow: 0 18px 50px rgba(23, 26, 25, 0.22);
+}
+@media (min-width: 900px) { .video-crash video { width: min(100%, 380px); } }
+
+/* Pulsante menu aperto: resta bianco, la X e' verde */
+body.nav-open .burger { background: #ffffff !important; color: #114843 !important; }
+body.nav-open .burger .burger-lines span { background: #114843 !important; }

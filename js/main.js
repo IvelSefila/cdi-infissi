@@ -982,3 +982,46 @@
   new MutationObserver(aggiorna).observe(document.body, { attributes: true, attributeFilter: ["class"] });
   aggiorna();
 })();
+
+
+/* Anteprima nel portfolio: se la pagina e' dentro la cornice del portfolio, il portfolio puo' farla scorrere da sola
+   (demo) e riportarla in cima quando si attiva la navigazione. Si accetta solo la voce della pagina che ci contiene. */
+(() => {
+  if (window.parent === window) return;
+  const calmo = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let rafId = 0, ultimo = 0, fermoFino = 0, verso = 1, pos = 0;
+  const VEL = 0.055; /* px al millisecondo */
+  /* il CSS ha scroll-behavior: smooth: nella demo ogni passo deve essere immediato */
+  const vai = (y) => window.scrollTo({ top: y, left: 0, behavior: "instant" });
+  const fine = () => document.documentElement.scrollHeight - window.innerHeight;
+  const passo = (ora) => {
+    const dt = Math.min(50, ora - (ultimo || ora));
+    ultimo = ora;
+    if (ora >= fermoFino) {
+      /* posizione tenuta in decimali: scrollY e' intero e i passi piccoli andrebbero persi */
+      if (Math.abs(window.scrollY - Math.round(pos)) > 2) pos = window.scrollY;
+      const y = pos + verso * VEL * dt;
+      pos = y;
+      if (verso > 0 && y >= fine()) {
+        vai(fine());
+        verso = -1; pos = fine(); fermoFino = ora + 1400;
+      } else if (verso < 0 && y <= 0) {
+        vai(0);
+        verso = 1; pos = 0; fermoFino = ora + 1400;
+      } else {
+        vai(y);
+      }
+    }
+    rafId = requestAnimationFrame(passo);
+  };
+  const avvia = () => { if (calmo || rafId) return; ultimo = 0; rafId = requestAnimationFrame(passo); };
+  const ferma = () => { cancelAnimationFrame(rafId); rafId = 0; };
+  window.addEventListener("message", (e) => {
+    if (e.source !== window.parent || !e.data || e.data.nousCdi !== "demo") return;
+    if (e.data.on) { verso = 1; pos = window.scrollY; avvia(); }
+    else {
+      ferma();
+      if (e.data.top) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+})();
