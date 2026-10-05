@@ -2098,12 +2098,29 @@ body.nav-open .burger .burger-lines span { background: #ffffff !important; }
 /* Video centrale tra i vantaggi e il configuratore */
 .video-crash { display: flex; justify-content: center; }
 .video-crash video {
-  display: block; width: min(100%, 340px); height: auto; aspect-ratio: 9 / 16;
+  display: block; width: min(86%, 290px); height: auto; aspect-ratio: 9 / 16;
   border-radius: 24px; background: #0b1413; object-fit: cover;
   box-shadow: 0 18px 50px rgba(23, 26, 25, 0.22);
 }
-@media (min-width: 900px) { .video-crash video { width: min(100%, 380px); } }
+@media (min-width: 900px) { .video-crash video { width: min(100%, 320px); } }
 
 /* Pulsante menu aperto: resta bianco, la X e' verde */
 body.nav-open .burger { background: #ffffff !important; color: #114843 !important; }
 body.nav-open .burger .burger-lines span { background: #114843 !important; }
+
+
+/* Video centrale: sta intero nella visuale (altezza = schermo meno barra in alto e barra fissa in basso), centrato */
+.video-crash video {
+  width: auto; max-width: 100%; height: calc(100svh - 10.5rem); max-height: 640px;
+  aspect-ratio: 9 / 16;
+}
+@media (min-width: 900px) { .video-crash video { width: auto; height: calc(100svh - 8rem); max-height: 700px; } }
+
+/* contenuto del menu sempre visibile se le animazioni non sono partite */
+.overlay-nav.is-pronto .mn-topbar,
+.overlay-nav.is-pronto .mn-search-wrap,
+.overlay-nav.is-pronto .mn-filter-tabs,
+.overlay-nav.is-pronto .mn-catalog-grid .mn-item,
+.overlay-nav.is-pronto .mn-secondary-links,
+.overlay-nav.is-pronto .mn-bottom-bar { opacity: 1 !important; transform: none !important; }
+body.nav-open .overlay-nav.is-pronto { clip-path: none !important; -webkit-clip-path: none !important; }

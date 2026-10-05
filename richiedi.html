@@ -15,9 +15,9 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400..700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/main.css?v=20261005a" />
-    <link rel="stylesheet" href="css/catalog-modern.css?v=20261005a" />
-    <link rel="stylesheet" href="css/richiedi.css?v=20261005a" />
+    <link rel="stylesheet" href="css/main.css?v=20261005e" />
+    <link rel="stylesheet" href="css/catalog-modern.css?v=20261005e" />
+    <link rel="stylesheet" href="css/richiedi.css?v=20261005e" />
   </head>
   <body class="ask">
     <a class="skip" href="#form">Vai al modulo</a>
@@ -389,7 +389,7 @@
         <a href="index.html" class="btn btn-ghost mn-action-btn mn-action-home" aria-label="Home">
           <span>🏠</span> Home
         </a>
-        <a href="dati-tecnici.html" class="btn btn-ghost mn-action-btn">
+        <a href="dati-tecnici.html" class="btn btn-ghost mn-action-btn" style="display: none;" hidden aria-hidden="true">
           <span>📊</span> Specifiche
         </a>
         <a href="richiedi.html" class="btn mn-action-btn mn-action-primary">
@@ -531,8 +531,22 @@
         </div>
       </section>
     </main>
+
+    <nav class="dock" aria-label="Azioni rapide mobile">
+      <a href="index.html">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <button type="button" data-open-catalog-drawer aria-label="Apri catalogo serramenti">
+        <span>📁</span>
+        <span>Catalogo</span>
+      </button>
+      <a class="dock-main" href="richiedi.html" aria-current="page">
+        <span>Preventivo</span>
+      </a>
+    </nav>
     <p class="ask-foot">CDI Infissi · <a href="mailto:infissicdi@gmail.com">infissicdi@gmail.com</a></p>
-    <script src="js/main.js?v=20261005a"></script>
-    <script src="js/richiedi.js?v=20261005a"></script>
+    <script src="js/main.js?v=20261005e"></script>
+    <script src="js/richiedi.js?v=20261005e"></script>
   </body>
 </html>

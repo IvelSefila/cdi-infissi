@@ -1025,3 +1025,18 @@
     }
   });
 })();
+
+
+/* Rete di sicurezza del menu mobile: se per qualsiasi motivo le animazioni di apertura non partono (scheda in background, browser lento),
+   dopo un secondo e mezzo il contenuto viene mostrato comunque, cosi' non resta mai uno schermo scuro e vuoto. */
+(() => {
+  const ov = document.querySelector(".overlay-nav");
+  if (!ov) return;
+  let t = 0;
+  const aggiorna = () => {
+    clearTimeout(t);
+    if (document.body.classList.contains("nav-open")) t = setTimeout(() => ov.classList.add("is-pronto"), 1500);
+    else ov.classList.remove("is-pronto");
+  };
+  new MutationObserver(aggiorna).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+})();

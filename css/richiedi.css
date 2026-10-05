@@ -200,7 +200,7 @@
 }
 .privacy input { width: auto; margin-top: 0.25rem; accent-color: var(--sage-deep); }
 
-.ask .btn {
+.ask-card .btn {
   background: var(--moss);
   justify-content: center;
   width: 100%;
